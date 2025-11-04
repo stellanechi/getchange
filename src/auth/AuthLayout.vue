@@ -1,12 +1,14 @@
 <script>
-import SignUpStepOne from "@/pages/signup/SignUpStepOne.vue";
+import SignUp from "@/pages/signup/SignUp.vue";
 
 export default {
   name: "AuthLayout",
-  components: { SignUpStepOne },
+  components: { SignUp },
 };
 </script>
 
 <template>
-  <SignUpStepOne />
+  <div>
+    <SignUp />
+  </div>
 </template>
