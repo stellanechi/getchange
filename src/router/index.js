@@ -3,6 +3,10 @@ import AuthLayout from "@/auth/AuthLayout.vue";
 import SignUpStepOne from "@/pages/signup/SignUpStepOne.vue";
 import SignUpStepTwo from "@/pages/signup/SignUpStepTwo.vue";
 import SignUpComplete from "@/pages/signup/SignUpComplete.vue";
+import LoginPage from "@/pages/login/LoginPage.vue";
+import Login from "@/pages/login/Login.vue";
+import ForgetPassword from "@/pages/login/ForgetPassword.vue";
+import DashboardLayout from "@/pages/dashboard/DashboardLayout.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +43,30 @@ const router = createRouter({
       path: "/",
       redirect: "/signup",
     },
+    {
+      path: "/login",
+      component: LoginPage,
+      children: [
+        {
+          path: "",
+          redirect: "/login/step-1",
+        },
+        {
+          path: "step-1",
+          name: "login",
+          component: Login,
+          meta: { stage: 1 },
+        },
+        {
+          path: "step-2",
+          name: "forget-password",
+          component: ForgetPassword,
+          meta: { stage: 1 },
+        },
+      ],
+    },
+
+    { path: "/dashboard", component: DashboardLayout, name: "Dashboard" },
   ],
 });
 

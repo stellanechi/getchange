@@ -9,13 +9,8 @@ export default {
         3: "/signup-woman.png",
       },
       formData: {
-        firstName: "",
-        lastName: "",
         email: "",
         password: "",
-        businessName: "",
-        businessAddress: "",
-        phoneNumber: "",
       },
     };
   },
@@ -74,16 +69,12 @@ export default {
         <!-- Header -->
         <div class="mb-4">
           <h1 class="text-2xl lg:text-3xl font-semibold text-gray-800 mb-2">
-            {{
-              currentStage === 3
-                ? "Great to have you onboard"
-                : "Create your free account"
-            }}
+            {{ currentStage === 3 ? "Welcome" : "Create your free account" }}
           </h1>
           <p v-if="currentStage !== 3" class="text-sm text-gray-600">
-            Already registered?
-            <router-link to="/login" class="text-blue-600 hover:underline">
-              Sign In
+            Don’t have an account?
+            <router-link to="/signup" class="text-blue-600 hover:underline">
+              Sign up
             </router-link>
             <!-- <a href="#" class="text-green-500 hover:text-green-600 font-medium"
               >Sign In</a

@@ -100,7 +100,7 @@ export default {
     <div class="flex justify-end">
       <button
         type="submit"
-        class="w-40 bg-green-500 hover:bg-green-600 text-white font-medium py-3 rounded-lg transition-colors mt-6"
+        class="w-40 bg-green-500 hover:bg-green-600 text-white font-medium py-3 cursor-pointer rounded-lg transition-colors mt-6"
       >
         Finish
       </button>
