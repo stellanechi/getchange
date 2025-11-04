@@ -98,7 +98,9 @@ export default {
     </div>
 
     <div class="flex items-center justify-between">
-      <p class="text-green-500">Forgot Password?</p>
+      <router-link to="/forget-password" class="text-green-500 hover:underline">
+        Forgot Password?
+      </router-link>
       <button
         type="submit"
         class="w-40 bg-green-500 hover:bg-green-600 text-white font-medium cursor-pointer py-3 rounded-lg transition-colors mt-6"
