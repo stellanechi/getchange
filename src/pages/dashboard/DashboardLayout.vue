@@ -3,7 +3,7 @@ import Header from "./Header.vue";
 import SideBar from "./SideBar.vue";
 
 export default {
-  name: "AuthLayout",
+  name: "DashboardLayout",
   components: {
     Header,
     SideBar,
@@ -18,7 +18,7 @@ export default {
     <div class="flex-1 flex flex-col">
       <Header />
 
-      <main class="flex-1 overflow-auto bg-gray-50">
+      <main class="flex-1 overflow-auto bg-gray-100">
         <router-view></router-view>
       </main>
     </div>

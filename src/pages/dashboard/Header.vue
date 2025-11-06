@@ -36,8 +36,11 @@ export default {
     class="bg-white shadow-sm px-8 py-4 flex items-center justify-between"
   >
     <div class="flex items-center space-x-2">
-      <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-      <span class="text-gray-800 font-medium">Getcharge</span>
+      <img
+        src="../../assets/auth-images/getchange-logo.png"
+        alt="GetChange Logo"
+        class="w-32 h-auto"
+      />
     </div>
 
     <div class="flex items-center space-x-3">

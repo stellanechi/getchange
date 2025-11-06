@@ -15,7 +15,7 @@ export default {
     </p>
 
     <router-link
-      to="/dashboardlayout"
+      to="/dashboard"
       class="inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-8 rounded-lg transition-colors"
     >
       Dashboard

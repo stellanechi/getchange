@@ -1,28 +1,27 @@
 <script>
+import wallet from "@/assets/auth-images/card-icon.png";
+import explore from "@/assets/auth-images/explore-icon.png";
+import people from "@/assets/auth-images/people-icon.png";
+
 export default {
   name: "Sidebar",
   data() {
     return {
       menuItems: [
         {
-          name: "Dashboardlayout",
-          path: "/dashboardlayout",
-          icon: require("@/assets/icons/home.png"), // Change to your icon filename
-        },
-        {
-          name: "Wallet",
-          path: "/wallet",
-          icon: require("@/assets/icons/wallet.png"), // Change to your icon filename
-        },
-        {
           name: "Explore",
-          path: "/explore",
-          icon: require("@/assets/icons/explore.png"), // Change to your icon filename
+          path: "/dashboard/explore",
+          icon: explore,
         },
         {
           name: "People",
-          path: "/people",
-          icon: require("@/assets/icons/people.png"), // Change to your icon filename
+          path: "/dashboard/people",
+          icon: people,
+        },
+        {
+          name: "Wallet",
+          path: "/dashboard/wallet",
+          icon: wallet,
         },
       ],
     };
@@ -39,8 +38,6 @@ export default {
   <div
     class="w-20 bg-white shadow-lg flex flex-col items-center py-6 space-y-8"
   >
-    <div class="text-2xl font-bold text-green-500 mb-8">G</div>
-
     <router-link
       v-for="item in menuItems"
       :key="item.name"
@@ -68,7 +65,6 @@ export default {
   text-decoration: none;
 }
 
-/* Filter to make icon white when active */
 .filter-white {
   filter: brightness(0) invert(1);
 }
