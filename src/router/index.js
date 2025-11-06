@@ -7,6 +7,10 @@ import LoginPage from "@/pages/login/LoginPage.vue";
 import Login from "@/pages/login/Login.vue";
 import ForgetPassword from "@/pages/login/ForgetPassword.vue";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout.vue";
+// import Dashboard from "@/pages/dashboard/Dashboard.vue";
+import Wallet from "@/pages/dashboard/Wallet.vue";
+import Explore from "@/pages/dashboard/Explore.vue";
+import People from "@/pages/dashboard/People.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,7 +70,37 @@ const router = createRouter({
       ],
     },
 
-    { path: "/dashboard", component: DashboardLayout, name: "Dashboard" },
+    // { path: "/dashboard", component: DashboardLayout, name: "Dashboard" },
+    {
+      path: "/dashboardlayout",
+      component: DashboardLayout,
+      children: [
+        {
+          path: "",
+          redirect: "/dashboardlayout",
+        },
+        // {
+        //   path: "dashboard",
+        //   name: "Dashboard",
+        //   component: Dashboard,
+        // },
+        {
+          path: "wallet",
+          name: "Wallet",
+          component: Wallet,
+        },
+        {
+          path: "explore",
+          name: "Explore",
+          component: Explore,
+        },
+        {
+          path: "people",
+          name: "People",
+          component: People,
+        },
+      ],
+    },
   ],
 });
 
