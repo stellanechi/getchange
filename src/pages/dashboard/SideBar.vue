@@ -36,7 +36,7 @@ export default {
 
 <template>
   <div
-    class="w-20 bg-white shadow-lg flex flex-col items-center py-6 space-y-8"
+    class="w-20 bg-white shadow-lg flex flex-col items-center py-6 space-y-8 mt-20"
   >
     <router-link
       v-for="item in menuItems"
