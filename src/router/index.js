@@ -70,15 +70,10 @@ const router = createRouter({
       ],
     },
 
-    // { path: "/dashboard", component: DashboardLayout, name: "Dashboard" },
     {
       path: "/dashboard",
       component: DashboardLayout,
       children: [
-        // {
-        //   path: "",
-        //   redirect: "/dashboardwallet",
-        // },
         {
           path: "",
           name: "Dashboard",
@@ -105,14 +100,3 @@ const router = createRouter({
 });
 
 export default router;
-
-// import { createRouter, createWebHistory } from "vue-router";
-// import AuthLayout from "@/auth/AuthLayout.vue";
-
-// const router = createRouter({
-//   history: createWebHistory(import.meta.env.BASE_URL),
-
-//   routes: [{ path: "/", component: AuthLayout }],
-// });
-
-// export default router;
