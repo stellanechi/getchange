@@ -14,6 +14,7 @@ export default {
 import ExploreTable from "@/components/explore/ExploreTable.vue";
 import Modal from "@/components/explore/Modal.vue";
 import QuickView from "@/components/explore/QuickView.vue";
+import Button from "@/components/Button.vue";
 
 export default {
   name: "AuthLayout",
@@ -21,6 +22,7 @@ export default {
     QuickView,
     ExploreTable,
     Modal,
+    Button,
   },
   data() {
     return {
@@ -57,7 +59,12 @@ export default {
   <div>
     <div class="mb-6">
       <QuickView title="Store Wallet" :amount="2500" @onAction="handleTopUp">
-        <button>top up view</button>
+        <Button
+          buttonText="Top up wallet"
+          buttonBgColor="#22c55e"
+          buttonTextColor="#ffffff"
+          @onAction="handleClick"
+        />
       </QuickView>
     </div>
 
@@ -66,12 +73,14 @@ export default {
       <QuickView
         title="Total Disbursed"
         :amount="12000"
-        buttonText="View History"
-        buttonBgColor="#ffffff"
-        buttonTextColor="#0F172A"
-        borderVisible
         @onAction="viewHistory"
-      />
+      >
+        <Button
+          buttonText="View History"
+          buttonBgColor="#ffffff"
+          buttonTextColor="#0F172A"
+          @onAction="handleClick"
+      /></QuickView>
     </div>
     <div>
       <ExploreTable />
