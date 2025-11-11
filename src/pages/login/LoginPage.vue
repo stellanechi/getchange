@@ -6,7 +6,6 @@ export default {
       stageImages: {
         1: "/signup-man.png",
         2: "/signup-woman.png",
-        3: "/signup-woman.png",
       },
       formData: {
         email: "",
