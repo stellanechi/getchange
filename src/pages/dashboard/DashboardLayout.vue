@@ -18,7 +18,7 @@ export default {
     <div class="flex-1 flex flex-col">
       <Header />
 
-      <main class="flex-1 overflow-auto bg-gray-100">
+      <main class="flex-1 overflow-auto bg-gray-100 py-8 px-8">
         <router-view></router-view>
       </main>
     </div>
