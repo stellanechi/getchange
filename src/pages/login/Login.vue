@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 export default {
   name: "Login",
   inject: ["formData"],
@@ -10,6 +10,38 @@ export default {
   methods: {
     handleSubmit() {
       this.$router.push({ name: "/dashboardlayout" });
+    },
+  },
+};
+</script> -->
+
+<script>
+export default {
+  name: "Login",
+  inject: ["formData"],
+  data() {
+    return {
+      showPassword: false,
+    };
+  },
+  methods: {
+    handleSubmit() {
+      // Simulate login (normally you'd verify credentials via API)
+      if (this.formData.email && this.formData.password) {
+        // Store login state in localStorage
+        localStorage.setItem("isLoggedIn", "true");
+
+        // Redirect to dashboard
+        this.$router.push({ name: "Dashboard" });
+
+        // Optionally prevent back button navigation to login
+        window.history.pushState(null, "", window.location.href);
+        window.addEventListener("popstate", () => {
+          window.history.pushState(null, "", window.location.href);
+        });
+      } else {
+        alert("Please enter your email and password");
+      }
     },
   },
 };
@@ -98,7 +130,10 @@ export default {
     </div>
 
     <div class="flex items-center justify-between">
-      <router-link to="/forget-password" class="text-green-500 hover:underline">
+      <router-link
+        to="login/forget-password"
+        class="text-green-500 hover:underline"
+      >
         Forgot Password?
       </router-link>
       <button

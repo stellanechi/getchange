@@ -18,6 +18,7 @@ const router = createRouter({
     {
       path: "/signup",
       component: AuthLayout,
+      meta: { requiresGuest: true },
       children: [
         {
           path: "",
@@ -50,6 +51,7 @@ const router = createRouter({
     {
       path: "/login",
       component: LoginPage,
+      meta: { requiresGuest: true },
       children: [
         {
           path: "",
@@ -73,6 +75,7 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: DashboardLayout,
+      meta: { requiresGuest: true },
       children: [
         {
           path: "",
@@ -96,7 +99,33 @@ const router = createRouter({
         },
       ],
     },
+    //  ---------- DEFAULT & 404 ----------
+    { path: "/", redirect: "/login" },
+    { path: "/:catchAll(.*)", redirect: "/login" },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+  // Auth pages
+  const authPages = [
+    "/login",
+    "/signup",
+    "/signup/step-1",
+    "/signup/step-2",
+    "/signup/complete",
+  ];
+
+  if (!isLoggedIn && to.path.startsWith("/dashboard")) {
+    // Not logged in but trying to access dashboard
+    next("/login");
+  } else if (isLoggedIn && authPages.includes(to.path)) {
+    // Logged in but trying to access login/signup
+    next("/dashboard");
+  } else {
+    next(); // Allow
+  }
 });
 
 export default router;
