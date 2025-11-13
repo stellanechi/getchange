@@ -1,15 +1,3 @@
-<!-- <script>
-import ExploreTable from "@/components/explore/ExploreTable.vue";
-import QuickView from "@/components/explore/QuickView.vue";
-
-export default {
-  name: "AuthLayout",
-  components: {
-    QuickView,
-    ExploreTable,
-  },
-};
-</script> -->
 <script>
 import ExploreTable from "@/components/explore/ExploreTable.vue";
 import Modal from "@/components/explore/Modal.vue";
@@ -79,6 +67,7 @@ export default {
           buttonText="View History"
           buttonBgColor="#ffffff"
           buttonTextColor="#0F172A"
+          :borderVisible="true"
           @onAction="handleClick"
       /></QuickView>
     </div>

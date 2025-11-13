@@ -29,7 +29,7 @@ export default {
       :style="{
         backgroundColor: buttonBgColor,
         color: buttonTextColor,
-        border: borderVisible ? '1px solid #E5E7EB' : 'none',
+        border: borderVisible ? '1px solid #E5E7EB !important' : 'none',
       }"
       class="px-4 py-2 rounded-md font-medium transition-all duration-200 hover:opacity-90"
       @click="$emit('onAction')"
