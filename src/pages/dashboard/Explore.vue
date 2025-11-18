@@ -79,9 +79,4 @@ export default {
       <Calculator />
     </div>
   </div>
-
-  <div>
-    <Modal v-model="showModal" @credit-wallet="handleCreditWallet" />
-    <!-- <Modal /> -->
-  </div>
 </template>

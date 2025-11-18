@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "RechargeWidget",
+  name: "GETCHANGE WIDGET",
   data() {
     return {
       amountType: "airtime",
@@ -62,11 +62,15 @@ export default {
     <div class="w-full max-w-sm">
       <!-- Main Card -->
       <div class="bg-[#013C61] rounded-lg shadow-lg p-6 mb-4">
-        <h2 class="text-white text-sm font-medium mb-6">RECHARGE WIDGET</h2>
+        <h2 class="text-white text-sm font-normal mb-6">GETCHANGE WIDGET</h2>
 
         <!-- Amount Section -->
         <div class="mb-6">
-          <label class="text-white text-xs mb-3 block">Amount</label>
+          <div class="flex items-center gap-2 mb-6">
+            <label class="text-white text-xs">Amount</label>
+            <div class="flex-1 border-b border-white/40"></div>
+          </div>
+          <!-- <label class="text-white text-xs mb-3 block">Amount</label> -->
           <div class="flex items-center gap-4 mb-4">
             <label class="flex items-center gap-2 cursor-pointer">
               <input
@@ -89,7 +93,7 @@ export default {
           </div>
 
           <!-- Phone Number Display -->
-          <div class="bg-[#013C61] border border-white/20 rounded px-4 py-3">
+          <div class="bg-[#013C61] mb-6">
             <input
               type="text"
               v-model="phoneNumber"
