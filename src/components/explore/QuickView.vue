@@ -39,8 +39,9 @@ export default {
     </div>
 
     <div>
-      <p class="text-2xl font-bold text-gray-800 mt-1">
-        ₦{{ amount.toLocaleString() }}
+      <p class="text-2xl font-semibold text-gray-800 mt-1">
+        <span class="align-top text-base mr-1">₦</span
+        >{{ amount.toLocaleString() }}
       </p>
     </div>
 

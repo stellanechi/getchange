@@ -25,7 +25,6 @@ export default {
     },
     viewHistory() {
       console.log("View history clicked");
-      // Add your view history logic here
     },
     handleCreditWallet(data) {
       console.log("Credit wallet data:", data);
@@ -46,32 +45,28 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between align-center">
-    <div>
-      <div class="mb-6 max-width-2xl">
-        <QuickView title="Store Wallet" :amount="2500" @onAction="handleTopUp">
+  <div class="flex justify-between items-center">
+    <div class="w-3/4">
+      <div class="mb-6">
+        <QuickView title="Store Wallet" :amount="2500">
           <Button
             buttonText="Top up wallet"
             buttonBgColor="#22c55e"
             buttonTextColor="#ffffff"
-            @onAction="handleClick"
+            @onAction="handleTopUp"
           />
         </QuickView>
       </div>
 
       <!-- Total Disbursed -->
       <div class="mb-6">
-        <QuickView
-          title="Total Disbursed"
-          :amount="12000"
-          @onAction="viewHistory"
-        >
+        <QuickView title="Total Disbursed" :amount="12000">
           <Button
             buttonText="View History"
             buttonBgColor="#ffffff"
             buttonTextColor="#0F172A"
             :borderVisible="true"
-            @onAction="handleClick"
+            @onAction="viewHistory"
         /></QuickView>
       </div>
       <div>
@@ -84,6 +79,9 @@ export default {
       <Calculator />
     </div>
   </div>
-</template>
 
-<style lang="scss" scoped></style>
+  <div>
+    <Modal v-model="showModal" @credit-wallet="handleCreditWallet" />
+    <!-- <Modal /> -->
+  </div>
+</template>
