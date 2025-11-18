@@ -164,7 +164,7 @@ export default {
                 />
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-semibold text-blue-600 uppercase tracking-wide"
+                class="px-4 py-3 text-left text-xs font-semibold text-green-500 uppercase tracking-wide"
               >
                 First Name
               </th>
