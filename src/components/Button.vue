@@ -19,6 +19,12 @@ export default {
       default: false,
     },
   },
+
+  methods: {
+    handleClick() {
+      this.$emit("onAction");
+    },
+  },
 };
 </script>
 
@@ -29,10 +35,10 @@ export default {
       :style="{
         backgroundColor: buttonBgColor,
         color: buttonTextColor,
-        border: borderVisible ? '1px solid #E5E7EB !important' : 'none',
+        border: borderVisible ? '1px solid #E5E7EB ' : 'none',
       }"
       class="py-2 px-10 rounded-xs font-medium transition-all duration-200 hover:opacity-90 cursor-pointer"
-      @click="$emit('onAction')"
+      @click="handleClick"
     >
       {{ buttonText }}
     </button>

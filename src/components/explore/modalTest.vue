@@ -19,21 +19,15 @@ export default {
   computed: {
     isOpen: {
       get() {
-        console.log("Modal isOpen getter called:", this.value);
         return this.value;
       },
       set(val) {
-        console.log("Modal isOpen setter called:", val);
         this.$emit("input", val);
       },
     },
   },
   watch: {
-    value(newVal) {
-      console.log("Modal value prop changed:", newVal);
-    },
     isOpen(val) {
-      console.log("Modal isOpen watcher triggered:", val);
       if (val) {
         document.body.style.overflow = "hidden";
       } else {
@@ -43,7 +37,6 @@ export default {
   },
   methods: {
     closeModal() {
-      console.log("closeModal called");
       this.isOpen = false;
       this.resetForm();
     },
@@ -64,6 +57,7 @@ export default {
       this.cvv = e.target.value.replace(/\D/g, "");
     },
     creditWallet() {
+      // Emit event with form data
       this.$emit("credit-wallet", {
         amount: this.amount,
         cardNumber: this.cardNumber,
@@ -82,9 +76,6 @@ export default {
       this.useSavedCard = false;
     },
   },
-  mounted() {
-    console.log("Modal mounted - value prop:", this.value);
-  },
   beforeDestroy() {
     document.body.style.overflow = "";
   },
@@ -93,27 +84,11 @@ export default {
 
 <template>
   <div>
-    <!-- <div
-      v-if="true"
-      style="
-        position: fixed;
-        top: 50px;
-        right: 10px;
-        background: red;
-        color: white;
-        padding: 10px;
-        z-index: 9999;
-      "
-    >
-      Modal value: {{ value }}<br />
-      Modal isOpen: {{ isOpen }}
-    </div> -->
-
     <!-- Modal Overlay -->
     <transition name="modal">
       <div
         v-if="isOpen"
-        class="modal-overlay fixed inset-0 flex items-center justify-center z-50"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
         @click.self="closeModal"
       >
         <!-- Modal Content -->
@@ -234,10 +209,6 @@ export default {
 
 <style scoped>
 /* Modal transition animations */
-
-.modal-overlay {
-  background-color: rgba(0, 0, 0, 0.03);
-}
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.3s ease;
