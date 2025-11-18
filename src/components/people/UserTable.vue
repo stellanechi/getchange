@@ -7,56 +7,50 @@ export default {
       users: [
         {
           firstName: "Joshua",
-          lastName: "Bobby",
-          email: "josh.bobby@gmail.com",
-          phone: "+2348071234567b",
+          lastName: "Bakare",
+          email: "josh.bakery@gmail.com",
+          phone: "+2348012345678",
           role: "Admin",
-          actionType: "edit",
           isActive: false,
         },
         {
           firstName: "Jane",
-          lastName: "Cameron",
-          email: "jane.bobby@gmail.com",
-          phone: "+2348092334567b",
+          lastName: "Clement",
+          email: "josh.bakery@gmail.com",
+          phone: "+2348012345678",
           role: "Staff",
-          actionType: "lock",
           isActive: true,
         },
         {
-          firstName: "John",
+          firstName: "Hannah",
           lastName: "Johnson",
-          email: "john.bobby@gmail.com",
-          phone: "+2348071234567b",
+          email: "josh.bakery@gmail.com",
+          phone: "+2348012345678",
           role: "Staff",
-          actionType: "lock",
           isActive: false,
         },
         {
           firstName: "John",
-          lastName: "Nagisa",
-          email: "john.bobby@gmail.com",
-          phone: "+2348071234567b",
+          lastName: "Ngoka",
+          email: "josh.bakery@gmail.com",
+          phone: "+2348012345678",
           role: "Staff",
-          actionType: "lock",
           isActive: false,
         },
         {
-          firstName: "Oluchkpo",
-          lastName: "Adedola",
-          email: "john.bobby@gmail.com",
-          phone: "+2348071234667b",
+          firstName: "Omolayo",
+          lastName: "Adeleke",
+          email: "josh.bakery@gmail.com",
+          phone: "+2348012345678",
           role: "Staff",
-          actionType: "lock",
           isActive: false,
         },
         {
-          firstName: "Obinna",
+          firstName: "Gloria",
           lastName: "Amadi",
-          email: "john.bobby@gmail.com",
-          phone: "+2348071234667b",
+          email: "josh.bakery@gmail.com",
+          phone: "+2348012345678",
           role: "Staff",
-          actionType: "lock",
           isActive: false,
         },
       ],
@@ -83,21 +77,50 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 p-6">
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+  <div class="min-h-screen bg-white p-6">
+    <div class="bg-white">
       <!-- Header -->
-      <div
-        class="flex items-center justify-between px-6 py-4 border-b border-gray-200"
-      >
-        <h2 class="text-base font-semibold text-gray-700">Manage User</h2>
+      <div class="flex items-center justify-between mb-6">
         <div class="flex items-center gap-3">
-          <!-- Search Input -->
+          <!-- Change Role Dropdown -->
           <div class="relative">
+            <select
+              class="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded text-sm text-gray-600 bg-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 cursor-pointer"
+            >
+              <option>Change role</option>
+              <option>Admin</option>
+              <option>Staff</option>
+              <option>Manager</option>
+            </select>
+            <svg
+              class="absolute right-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+
+          <!-- Change Button -->
+          <button
+            class="px-5 py-2 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors"
+          >
+            Change
+          </button>
+
+          <!-- Search Input -->
+          <div class="relative ml-2">
             <input
               type="text"
               v-model="searchQuery"
-              placeholder="Search user"
-              class="pl-3 pr-9 py-1.5 border border-gray-300 rounded text-sm text-gray-600 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-56"
+              placeholder="Enter staff name here..."
+              class="pl-3 pr-9 py-2 border border-gray-300 rounded text-sm text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-64"
             />
             <button
               class="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
@@ -117,112 +140,86 @@ export default {
               </svg>
             </button>
           </div>
+        </div>
 
-          <!-- Add New Button -->
-          <button
-            class="px-4 py-1.5 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors flex items-center gap-1.5"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Add New
-          </button>
-
-          <!-- Pagination Info (Top Right) -->
-          <div class="flex items-center gap-2 ml-4">
-            <span class="text-xs text-gray-500">1 of 3</span>
-            <div class="flex items-center gap-0.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-            </div>
+        <!-- Pagination Info -->
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-gray-600">1 of 2</span>
+          <div class="flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            <span class="w-2 h-2 rounded-full bg-gray-300"></span>
           </div>
         </div>
       </div>
 
       <!-- Table -->
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto border border-gray-200 rounded-lg">
         <table class="w-full">
           <thead>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <th class="w-8 px-4 py-3">
+            <tr class="bg-white border-b border-gray-200">
+              <th class="w-12 px-4 py-3">
                 <input
                   type="checkbox"
-                  class="w-4 h-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
+                  class="w-4 h-4 rounded border-gray-300 text-green-500 focus:ring-green-500 cursor-pointer"
                 />
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                class="px-4 py-3 text-left text-xs font-semibold text-blue-600 uppercase tracking-wide"
               >
                 First Name
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide"
               >
                 Last Name
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide"
               >
                 Email
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide"
               >
                 Phone
               </th>
               <th
-                class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide"
               >
                 Role
               </th>
               <th class="w-16 px-4 py-3"></th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-100">
+          <tbody class="divide-y divide-gray-200">
             <tr
               v-for="(user, index) in filteredUsers"
               :key="index"
               :class="{ 'bg-green-50': user.isActive }"
               class="hover:bg-gray-50 transition-colors"
             >
-              <td class="px-4 py-3.5">
+              <td class="px-4 py-4">
                 <input
                   type="checkbox"
                   :checked="user.isActive"
-                  class="w-4 h-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
+                  class="w-4 h-4 rounded border-gray-300 text-green-500 focus:ring-green-500 cursor-pointer"
                 />
               </td>
-              <td class="px-4 py-3.5 text-sm text-gray-700">
+              <td class="px-4 py-4 text-sm text-gray-700">
                 {{ user.firstName }}
               </td>
-              <td class="px-4 py-3.5 text-sm text-gray-700">
+              <td class="px-4 py-4 text-sm text-gray-700">
                 {{ user.lastName }}
               </td>
-              <td class="px-4 py-3.5 text-sm text-gray-600">
-                {{ user.email }}
-              </td>
-              <td class="px-4 py-3.5 text-sm text-gray-700">
-                {{ user.phone }}
-              </td>
-              <td class="px-4 py-3.5 text-sm text-gray-700">{{ user.role }}</td>
-              <td class="px-4 py-3.5 text-center">
+              <td class="px-4 py-4 text-sm text-gray-600">{{ user.email }}</td>
+              <td class="px-4 py-4 text-sm text-gray-700">{{ user.phone }}</td>
+              <td class="px-4 py-4 text-sm text-gray-700">{{ user.role }}</td>
+              <td class="px-4 py-4 text-center">
                 <button
-                  v-if="user.actionType === 'edit'"
-                  class="w-7 h-7 flex items-center justify-center rounded bg-yellow-400 hover:bg-yellow-500 transition-colors"
+                  class="text-gray-400 hover:text-red-500 transition-colors"
                 >
                   <svg
-                    class="w-4 h-4 text-white"
+                    class="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -231,25 +228,7 @@ export default {
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  v-else
-                  class="w-7 h-7 flex items-center justify-center rounded bg-gray-200 hover:bg-gray-300 transition-colors"
-                >
-                  <svg
-                    class="w-4 h-4 text-gray-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     />
                   </svg>
                 </button>
