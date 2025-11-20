@@ -236,7 +236,8 @@ export default {
 /* Modal transition animations */
 
 .modal-overlay {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
 }
 .modal-enter-active,
 .modal-leave-active {

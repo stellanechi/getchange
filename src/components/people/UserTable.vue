@@ -169,18 +169,7 @@ export default {
         `Role changed successfully for ${this.selectedUsers.length} user(s)`
       );
     },
-    // deleteUser(userId) {
-    //   if (confirm("Are you sure you want to delete this user?")) {
-    //     const index = this.users.findIndex((user) => user.id === userId);
-    //     if (index !== -1) {
-    //       this.users.splice(index, 1);
 
-    //       if (this.paginatedUsers.length === 0 && this.currentPage > 1) {
-    //         this.currentPage--;
-    //       }
-    //     }
-    //   }
-    // },
     deleteUser(userId) {
       // Find the user to delete
       const user = this.users.find((u) => u.id === userId);
