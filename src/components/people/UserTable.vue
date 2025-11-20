@@ -4,8 +4,12 @@ export default {
   data() {
     return {
       searchQuery: "",
+      selectedRole: "",
+      currentPage: 1,
+      itemsPerPage: 6,
       users: [
         {
+          id: 1,
           firstName: "Joshua",
           lastName: "Bakare",
           email: "josh.bakery@gmail.com",
@@ -14,6 +18,7 @@ export default {
           isActive: false,
         },
         {
+          id: 2,
           firstName: "Jane",
           lastName: "Clement",
           email: "josh.bakery@gmail.com",
@@ -22,6 +27,7 @@ export default {
           isActive: true,
         },
         {
+          id: 3,
           firstName: "Hannah",
           lastName: "Johnson",
           email: "josh.bakery@gmail.com",
@@ -30,6 +36,7 @@ export default {
           isActive: false,
         },
         {
+          id: 4,
           firstName: "John",
           lastName: "Ngoka",
           email: "josh.bakery@gmail.com",
@@ -38,6 +45,7 @@ export default {
           isActive: false,
         },
         {
+          id: 5,
           firstName: "Omolayo",
           lastName: "Adeleke",
           email: "josh.bakery@gmail.com",
@@ -46,10 +54,47 @@ export default {
           isActive: false,
         },
         {
+          id: 6,
           firstName: "Gloria",
           lastName: "Amadi",
           email: "josh.bakery@gmail.com",
           phone: "+2348012345678",
+          role: "Staff",
+          isActive: false,
+        },
+        {
+          id: 7,
+          firstName: "Emmanuel",
+          lastName: "Okafor",
+          email: "emma.okafor@gmail.com",
+          phone: "+2348012345679",
+          role: "Staff",
+          isActive: false,
+        },
+        {
+          id: 8,
+          firstName: "Blessing",
+          lastName: "Nwosu",
+          email: "blessing.n@gmail.com",
+          phone: "+2348012345680",
+          role: "Manager",
+          isActive: false,
+        },
+        {
+          id: 9,
+          firstName: "Michael",
+          lastName: "Eze",
+          email: "michael.eze@gmail.com",
+          phone: "+2348012345681",
+          role: "Staff",
+          isActive: false,
+        },
+        {
+          id: 10,
+          firstName: "Grace",
+          lastName: "Ibrahim",
+          email: "grace.ibrahim@gmail.com",
+          phone: "+2348012345682",
           role: "Staff",
           isActive: false,
         },
@@ -72,6 +117,77 @@ export default {
         );
       });
     },
+    totalPages() {
+      return Math.ceil(this.filteredUsers.length / this.itemsPerPage);
+    },
+    paginatedUsers() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.filteredUsers.slice(start, end);
+    },
+    selectedUsers() {
+      return this.users.filter((user) => user.isActive);
+    },
+    isAllSelected() {
+      return (
+        this.paginatedUsers.length > 0 &&
+        this.paginatedUsers.every((user) => user.isActive)
+      );
+    },
+  },
+  methods: {
+    toggleSelectAll() {
+      const shouldSelect = !this.isAllSelected;
+      this.paginatedUsers.forEach((user) => {
+        user.isActive = shouldSelect;
+      });
+    },
+    updateSelectedUsers() {
+      // This method is called when individual checkboxes are toggled
+      // The v-model already handles the state update
+    },
+    changeRoleForSelected() {
+      if (!this.selectedRole || this.selectedUsers.length === 0) return;
+
+      this.selectedUsers.forEach((user) => {
+        user.role = this.selectedRole;
+        user.isActive = false; // Deselect after changing role
+      });
+
+      this.selectedRole = ""; // Reset dropdown
+      alert(
+        `Role changed successfully for ${this.selectedUsers.length} user(s)`
+      );
+    },
+    deleteUser(userId) {
+      if (confirm("Are you sure you want to delete this user?")) {
+        const index = this.users.findIndex((user) => user.id === userId);
+        if (index !== -1) {
+          this.users.splice(index, 1);
+
+          // Adjust page if current page is now empty
+          if (this.paginatedUsers.length === 0 && this.currentPage > 1) {
+            this.currentPage--;
+          }
+        }
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+  },
+  watch: {
+    searchQuery() {
+      // Reset to first page when searching
+      this.currentPage = 1;
+    },
   },
 };
 </script>
@@ -85,12 +201,13 @@ export default {
           <!-- Change Role Dropdown -->
           <div class="relative">
             <select
+              v-model="selectedRole"
               class="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded text-sm text-gray-600 bg-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 cursor-pointer"
             >
-              <option>Change role</option>
-              <option>Admin</option>
-              <option>Staff</option>
-              <option>Manager</option>
+              <option value="">Change role</option>
+              <option value="Admin">Admin</option>
+              <option value="Staff">Staff</option>
+              <option value="Manager">Manager</option>
             </select>
             <svg
               class="absolute right-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
@@ -109,7 +226,14 @@ export default {
 
           <!-- Change Button -->
           <button
-            class="px-5 py-2 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition-colors"
+            @click="changeRoleForSelected"
+            :disabled="selectedUsers.length === 0 || !selectedRole"
+            :class="[
+              'px-5 py-2 text-white text-sm font-medium rounded transition-colors',
+              selectedUsers.length === 0 || !selectedRole
+                ? 'bg-green-500 hover:bg-green-600 cursor-not-allowed'
+                : 'bg-green-500 hover:bg-green-600',
+            ]"
           >
             Change
           </button>
@@ -123,7 +247,27 @@ export default {
               class="pl-3 pr-9 py-2 border border-gray-300 rounded text-sm text-gray-500 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-64"
             />
             <button
+              @click="searchQuery = ''"
+              v-if="searchQuery"
               class="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <button
+              v-else
+              class="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-gray-400"
             >
               <svg
                 class="w-4 h-4"
@@ -144,10 +288,56 @@ export default {
 
         <!-- Pagination Info -->
         <div class="flex items-center gap-3">
-          <span class="text-sm text-gray-600">1 of 2</span>
-          <div class="flex items-center gap-1">
-            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-            <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+          <button
+            @click="previousPage"
+            :disabled="currentPage === 1"
+            class="text-gray-600 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <span class="text-sm text-gray-600"
+            >{{ currentPage }} of {{ totalPages }}</span
+          >
+          <button
+            @click="nextPage"
+            :disabled="currentPage === totalPages"
+            class="text-gray-600 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+          <div class="flex items-center gap-1 ml-2">
+            <span
+              v-for="page in totalPages"
+              :key="page"
+              :class="[
+                'w-2 h-2 rounded-full',
+                page === currentPage ? 'bg-green-500' : 'bg-gray-300',
+              ]"
+            ></span>
           </div>
         </div>
       </div>
@@ -160,6 +350,8 @@ export default {
               <th class="w-12 px-4 py-3">
                 <input
                   type="checkbox"
+                  :checked="isAllSelected"
+                  @change="toggleSelectAll"
                   class="w-4 h-4 rounded border-gray-300 text-green-500 focus:ring-green-500 cursor-pointer"
                 />
               </th>
@@ -193,15 +385,16 @@ export default {
           </thead>
           <tbody class="divide-y divide-gray-200">
             <tr
-              v-for="(user, index) in filteredUsers"
-              :key="index"
+              v-for="(user, index) in paginatedUsers"
+              :key="user.id"
               :class="{ 'bg-green-50': user.isActive }"
               class="hover:bg-gray-50 transition-colors"
             >
               <td class="px-4 py-4">
                 <input
                   type="checkbox"
-                  :checked="user.isActive"
+                  v-model="user.isActive"
+                  @change="updateSelectedUsers"
                   class="w-4 h-4 rounded border-gray-300 text-green-500 focus:ring-green-500 cursor-pointer"
                 />
               </td>
@@ -216,6 +409,7 @@ export default {
               <td class="px-4 py-4 text-sm text-gray-700">{{ user.role }}</td>
               <td class="px-4 py-4 text-center">
                 <button
+                  @click="deleteUser(user.id)"
                   class="text-gray-400 hover:text-red-500 transition-colors"
                 >
                   <svg
