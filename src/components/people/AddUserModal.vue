@@ -44,9 +44,20 @@ export default {
     },
   },
   methods: {
+    handleOverlayClick(event) {
+      // Only close if clicking directly on overlay, not on modal content
+      if (
+        this.$refs.modalContent &&
+        !this.$refs.modalContent.contains(event.target)
+      ) {
+        this.closeModal();
+      }
+    },
     closeModal() {
       this.isOpen = false;
-      this.resetForm();
+      this.$nextTick(() => {
+        this.resetForm();
+      });
     },
     formatPhoneNumber(e) {
       // Remove all non-numeric characters
@@ -97,17 +108,19 @@ export default {
     <!-- Modal Overlay -->
     <transition name="modal">
       <div
-        v-if="isOpen"
+        v-show="isOpen"
         class="modal-overlay fixed inset-0 flex items-center justify-center z-50"
-        @click.self="closeModal"
+        @click="handleOverlayClick"
       >
         <!-- Modal Content -->
         <div
+          ref="modalContent"
           class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 relative"
         >
           <!-- Close Button -->
           <button
-            @click="closeModal"
+            @click.stop="closeModal"
+            type="button"
             class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors z-10"
           >
             <svg
@@ -133,7 +146,7 @@ export default {
           </div>
 
           <!-- Modal Body -->
-          <div class="px-8 pb-8 space-y-5">
+          <form @submit.prevent="sendInvite" class="px-8 pb-8 space-y-5">
             <!-- Email -->
             <div>
               <label class="block text-sm text-gray-600 mb-2">Email</label>
@@ -141,6 +154,7 @@ export default {
                 v-model="formData.email"
                 type="email"
                 placeholder=""
+                autocomplete="off"
                 class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />
             </div>
@@ -154,6 +168,7 @@ export default {
                 v-model="formData.phoneNumber"
                 type="tel"
                 placeholder=""
+                autocomplete="off"
                 @input="formatPhoneNumber"
                 class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />
@@ -167,9 +182,10 @@ export default {
               <div class="relative">
                 <select
                   v-model="formData.role"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm text-gray-700 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer"
+                  :class="formData.role ? 'text-gray-700' : 'text-gray-400'"
                 >
-                  <option value="" disabled selected></option>
+                  <option value="" disabled>Select a role</option>
                   <option value="Admin">Admin</option>
                   <option value="Staff">Staff</option>
                   <option value="Manager">Manager</option>
@@ -192,19 +208,24 @@ export default {
             </div>
 
             <!-- Send Invite Button -->
-            <button
-              @click="sendInvite"
-              :disabled="!isFormValid"
-              :class="[
-                'w-full py-3 text-white font-medium rounded-md transition-colors mt-2',
-                isFormValid
-                  ? 'bg-green-500 hover:bg-green-600 cursor-pointer'
-                  : 'bg-gray-300 cursor-not-allowed',
-              ]"
-            >
-              Send Invite
-            </button>
-          </div>
+            <div class="flex justify-end mt-6">
+              <button
+                type="submit"
+                :disabled="!isFormValid"
+                :style="{
+                  color: '#ffffff',
+                }"
+                class="px-10 py-3 bg-green-500 font-medium rounded-sm transition-all duration-200"
+                :class="{
+                  'hover:opacity-90': isFormValid,
+                  'cursor-not-allowed': !isFormValid,
+                  'cursor-pointer': isFormValid,
+                }"
+              >
+                Send Invite
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </transition>

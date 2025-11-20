@@ -2,7 +2,6 @@
 import Button from "@/components/Button.vue";
 import UserCard from "@/components/people/UserCard.vue";
 import UserTable from "@/components/people/UserTable.vue";
-// import Modal from "@/components/explore/Modal.vue";
 import AddUserModal from "@/components/people/AddUserModal.vue";
 
 export default {
@@ -10,7 +9,6 @@ export default {
     UserTable,
     UserCard,
     Button,
-    // Modal,
     AddUserModal,
   },
   name: "user-management",
@@ -18,16 +16,49 @@ export default {
   data() {
     return {
       showModal: false,
+      users: [],
     };
   },
 
   methods: {
-    AddUser() {
+    openModal() {
       console.log("Opening modal");
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+    },
+    handleAddUser(userData) {
+      console.log("New user data:", userData);
+
+      const newUser = {
+        id: Date.now(),
+        firstName: userData.email.split("@")[0],
+        lastName: "",
+        email: userData.email,
+        phone: userData.phoneNumber,
+        role: userData.role,
+        isActive: false,
+      };
+
+      this.users.push(newUser);
+
+      // Optional: Show success notification
+      this.$toast.success("User invited successfully!");
+
+      // Or make API call to your backend
+      // this.$axios.post('/api/users/invite', userData)
+      //   .then(response => {
+      //     this.users.push(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.error('Error inviting user:', error);
+      //   });
+    },
+    handleModalInput(value) {
+      if (this.showModal !== value) {
+        this.showModal = value;
+      }
     },
   },
 };
@@ -42,7 +73,7 @@ export default {
           buttonText="Add New"
           buttonBgColor="#22c55e"
           buttonTextColor="#ffffff"
-          @onAction="AddUser"
+          @onAction="openModal"
         />
       </div>
     </div>
@@ -57,10 +88,8 @@ export default {
     <!-- Modal with explicit prop and event binding -->
     <AddUserModal
       :value="showModal"
-      @input="closeModal"
-      @credit-wallet="handleCreditWallet"
+      @input="handleModalInput"
+      @add-user="handleAddUser"
     />
   </div>
 </template>
-
-<style lang="scss" scoped></style>

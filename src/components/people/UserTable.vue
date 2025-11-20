@@ -1,12 +1,22 @@
 <script>
+import UserDeleteConfirmation from "./UserDeleteConfirmation.vue";
 export default {
   name: "UserTable",
+  components: {
+    UserDeleteConfirmation,
+  },
   data() {
     return {
+      //   searchQuery: "",
+      //   selectedRole: "",
+      //   currentPage: 1,
+      //   itemsPerPage: 6,
       searchQuery: "",
       selectedRole: "",
       currentPage: 1,
       itemsPerPage: 6,
+      showDeleteModal: false,
+      userToDelete: null,
       users: [
         {
           id: 1,
@@ -159,9 +169,32 @@ export default {
         `Role changed successfully for ${this.selectedUsers.length} user(s)`
       );
     },
+    // deleteUser(userId) {
+    //   if (confirm("Are you sure you want to delete this user?")) {
+    //     const index = this.users.findIndex((user) => user.id === userId);
+    //     if (index !== -1) {
+    //       this.users.splice(index, 1);
+
+    //       if (this.paginatedUsers.length === 0 && this.currentPage > 1) {
+    //         this.currentPage--;
+    //       }
+    //     }
+    //   }
+    // },
     deleteUser(userId) {
-      if (confirm("Are you sure you want to delete this user?")) {
-        const index = this.users.findIndex((user) => user.id === userId);
+      // Find the user to delete
+      const user = this.users.find((u) => u.id === userId);
+      if (user) {
+        this.userToDelete = user;
+        this.showDeleteModal = true;
+      }
+    },
+
+    confirmDelete() {
+      if (this.userToDelete) {
+        const index = this.users.findIndex(
+          (user) => user.id === this.userToDelete.id
+        );
         if (index !== -1) {
           this.users.splice(index, 1);
 
@@ -171,7 +204,13 @@ export default {
           }
         }
       }
+      this.userToDelete = null;
     },
+
+    cancelDelete() {
+      this.userToDelete = null;
+    },
+
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
@@ -432,5 +471,22 @@ export default {
         </table>
       </div>
     </div>
+    <!-- Add the Delete Confirmation Modal at the end -->
+    <!-- <DeleteConfirmationModal
+      v-model="showDeleteModal"
+      :userName="
+        userToDelete ? `${userToDelete.firstName} ${userToDelete.lastName}` : ''
+      "
+      @confirm="confirmDelete"
+      @cancel="cancelDelete"
+    /> -->
+    <UserDeleteConfirmation
+      v-model="showDeleteModal"
+      :userName="
+        userToDelete ? `${userToDelete.firstName} ${userToDelete.lastName}` : ''
+      "
+      @confirm="confirmDelete"
+      @cancel="cancelDelete"
+    />
   </div>
 </template>
