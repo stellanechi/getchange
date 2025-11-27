@@ -7,10 +7,6 @@ export default {
   },
   data() {
     return {
-      //   searchQuery: "",
-      //   selectedRole: "",
-      //   currentPage: 1,
-      //   itemsPerPage: 6,
       searchQuery: "",
       selectedRole: "",
       currentPage: 1,
@@ -460,15 +456,7 @@ export default {
         </table>
       </div>
     </div>
-    <!-- Add the Delete Confirmation Modal at the end -->
-    <!-- <DeleteConfirmationModal
-      v-model="showDeleteModal"
-      :userName="
-        userToDelete ? `${userToDelete.firstName} ${userToDelete.lastName}` : ''
-      "
-      @confirm="confirmDelete"
-      @cancel="cancelDelete"
-    /> -->
+    <!--  Delete Confirmation Modal  -->
     <UserDeleteConfirmation
       v-model="showDeleteModal"
       :userName="
