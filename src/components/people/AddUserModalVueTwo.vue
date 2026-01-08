@@ -1,101 +1,106 @@
-<script setup>
-import { ref, computed, watch, onBeforeUnmount } from "vue";
-
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    default: false,
+<script>
+export default {
+  name: "AddUserModal",
+  props: {
+    value: {
+      type: Boolean,
+      default: false,
+    },
   },
-});
-
-const emit = defineEmits(["update:modelValue", "add-user"]);
-
-const modalContent = ref(null);
-const formData = ref({
-  email: "",
-  phoneNumber: "",
-  role: null,
-});
-
-const isOpen = computed({
-  get() {
-    return props.modelValue;
+  data() {
+    return {
+      formData: {
+        email: "",
+        phoneNumber: "",
+        role: null,
+      },
+    };
   },
-  set(val) {
-    emit("update:modelValue", val);
+  computed: {
+    isOpen: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit("input", val);
+      },
+    },
+    isFormValid() {
+      return (
+        this.formData.email &&
+        this.formData.phoneNumber &&
+        this.formData.role &&
+        this.isValidEmail(this.formData.email)
+      );
+    },
   },
-});
+  watch: {
+    isOpen(val) {
+      if (val) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    },
+  },
+  methods: {
+    handleOverlayClick(event) {
+      // Only close if clicking directly on overlay, not on modal content
+      if (
+        this.$refs.modalContent &&
+        !this.$refs.modalContent.contains(event.target)
+      ) {
+        this.closeModal();
+      }
+    },
+    closeModal() {
+      this.isOpen = false;
+      this.$nextTick(() => {
+        this.resetForm();
+      });
+    },
+    formatPhoneNumber(e) {
+      // Remove all non-numeric characters
+      let value = e.target.value.replace(/\D/g, "");
 
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+      // Limit to 13 digits (for +234 format)
+      if (value.length > 13) {
+        value = value.substring(0, 13);
+      }
 
-const isFormValid = computed(() => {
-  return (
-    formData.value.email &&
-    formData.value.phoneNumber &&
-    formData.value.role &&
-    isValidEmail(formData.value.email)
-  );
-});
+      this.formData.phoneNumber = value;
+    },
+    isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+    sendInvite() {
+      if (!this.isFormValid) return;
 
-watch(isOpen, (val) => {
-  if (val) {
-    document.body.style.overflow = "hidden";
-  } else {
+      // Emit the user data to parent component
+      this.$emit("add-user", {
+        email: this.formData.email,
+        phoneNumber: this.formData.phoneNumber,
+        role: this.formData.role,
+      });
+
+      // Show success message (you can replace with toast notification)
+      alert(`Invite sent successfully to ${this.formData.email}!`);
+
+      this.closeModal();
+    },
+    resetForm() {
+      this.formData = {
+        email: "",
+        phoneNumber: "",
+        role: "",
+      };
+    },
+  },
+  beforeDestroy() {
     document.body.style.overflow = "";
-  }
-});
-
-const handleOverlayClick = (event) => {
-  if (modalContent.value && !modalContent.value.contains(event.target)) {
-    closeModal();
-  }
+  },
 };
-
-const closeModal = () => {
-  isOpen.value = false;
-  setTimeout(() => {
-    resetForm();
-  }, 0);
-};
-
-const formatPhoneNumber = (e) => {
-  let value = e.target.value.replace(/\D/g, "");
-
-  if (value.length > 13) {
-    value = value.substring(0, 13);
-  }
-
-  formData.value.phoneNumber = value;
-};
-
-const sendInvite = () => {
-  if (!isFormValid.value) return;
-
-  emit("add-user", {
-    email: formData.value.email,
-    phoneNumber: formData.value.phoneNumber,
-    role: formData.value.role,
-  });
-
-  alert(`Invite sent successfully to ${formData.value.email}!`);
-
-  closeModal();
-};
-
-const resetForm = () => {
-  formData.value = {
-    email: "",
-    phoneNumber: "",
-    role: null,
-  };
-};
-
-onBeforeUnmount(() => {
-  document.body.style.overflow = "";
-});
 </script>
 
 <template>
@@ -180,7 +185,7 @@ onBeforeUnmount(() => {
                   class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer"
                   :class="formData.role ? 'text-gray-700' : 'text-gray-400'"
                 >
-                  <option :value="null" disabled>Select a role</option>
+                  <option value="null" disabled>Select a role</option>
                   <option value="Admin">Admin</option>
                   <option value="Staff">Staff</option>
                   <option value="Manager">Manager</option>
@@ -239,7 +244,7 @@ onBeforeUnmount(() => {
   transition: opacity 0.3s ease;
 }
 
-.modal-enter-from,
+.modal-enter,
 .modal-leave-to {
   opacity: 0;
 }
@@ -249,7 +254,7 @@ onBeforeUnmount(() => {
   transition: transform 0.3s ease;
 }
 
-.modal-enter-from .bg-white,
+.modal-enter .bg-white,
 .modal-leave-to .bg-white {
   transform: scale(0.9);
 }
